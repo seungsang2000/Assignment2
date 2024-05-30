@@ -70,8 +70,22 @@ public class CategoryProductsController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(product);
 	}
 
+	//추가됨
 	@DeleteMapping("/{productId}")
 	public ResponseEntity<Void> removeProduct(@PathVariable Long categoryId, @PathVariable Long productId) {
+		Category category = categoryService.getCategoryById(categoryId);
+		if (category == null) {
+			throw new NotFoundException(categoryId);
+		}
+
+		Product product = productService.getProductById(productId);
+		if (product == null) {
+			throw new NotFoundException(productId);
+		}
+
+		productService.removeCategory(product, category);
+
+		return ResponseEntity.noContent().build();
 
 	}
 }

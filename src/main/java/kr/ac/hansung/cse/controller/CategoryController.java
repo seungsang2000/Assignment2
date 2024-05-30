@@ -28,11 +28,14 @@ public class CategoryController {
         return ResponseEntity.ok(categories);
     }
 
+    //추가됨
     @GetMapping("/{id}")
     public ResponseEntity<Category> retrieveCategory(@PathVariable Long id) {
-
-
-
+        Category category = categoryService.getCategoryById(id);
+        if(category == null){
+            throw new NotFoundException(id);
+        }
+        return ResponseEntity.ok(category);
     }
 
     @PostMapping
